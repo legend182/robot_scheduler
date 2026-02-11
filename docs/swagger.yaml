@@ -1,0 +1,1288 @@
+basePath: /api/v1
+definitions:
+  internal_api_handler.Response:
+    properties:
+      code:
+        type: integer
+      data: {}
+      message:
+        type: string
+    type: object
+  robot_scheduler_internal_model_dto.DeviceCreateRequest:
+    properties:
+      company:
+        allOf:
+        - $ref: '#/definitions/robot_scheduler_internal_model_entity.CompanyType'
+        description: 设备厂商
+      extraInfo:
+        description: 扩展信息
+        type: string
+      ip:
+        description: 设备IP
+        type: string
+      password:
+        description: 登录密码
+        type: string
+      port:
+        description: 设备端口
+        type: integer
+      type:
+        allOf:
+        - $ref: '#/definitions/robot_scheduler_internal_model_entity.DeviceType'
+        description: 设备类型
+      userName:
+        description: 登录用户名
+        type: string
+    required:
+    - company
+    - port
+    - type
+    type: object
+  robot_scheduler_internal_model_dto.DeviceUpdateRequest:
+    properties:
+      company:
+        allOf:
+        - $ref: '#/definitions/robot_scheduler_internal_model_entity.CompanyType'
+        description: 设备厂商
+      extraInfo:
+        description: 扩展信息
+        type: string
+      ip:
+        description: 设备IP
+        type: string
+      password:
+        description: 登录密码
+        type: string
+      port:
+        description: 设备端口
+        type: integer
+      status:
+        allOf:
+        - $ref: '#/definitions/robot_scheduler_internal_model_entity.DeviceStatus'
+        description: 设备状态
+      type:
+        allOf:
+        - $ref: '#/definitions/robot_scheduler_internal_model_entity.DeviceType'
+        description: 设备类型
+      userName:
+        description: 登录用户名
+        type: string
+    type: object
+  robot_scheduler_internal_model_dto.LoginRequest:
+    properties:
+      password:
+        description: 密码
+        type: string
+      userName:
+        description: 用户名
+        type: string
+    required:
+    - password
+    - userName
+    type: object
+  robot_scheduler_internal_model_dto.PCDFileCreateRequest:
+    properties:
+      area:
+        description: 区域描述
+        type: string
+      extraInfo:
+        description: 扩展信息
+        type: string
+      minioPath:
+        description: MinIO存储路径
+        type: string
+      name:
+        description: 地图名称
+        maxLength: 100
+        minLength: 1
+        type: string
+      path:
+        description: 文件存储路径
+        type: string
+      size:
+        description: 文件大小
+        minimum: 0
+        type: integer
+      userName:
+        description: 上传人员
+        type: string
+    required:
+    - area
+    - name
+    - path
+    - size
+    - userName
+    type: object
+  robot_scheduler_internal_model_dto.PCDFileUpdateRequest:
+    properties:
+      area:
+        description: 区域描述
+        type: string
+      extraInfo:
+        description: 扩展信息
+        type: string
+      minioPath:
+        description: MinIO存储路径
+        type: string
+      name:
+        description: 地图名称
+        maxLength: 100
+        minLength: 1
+        type: string
+      path:
+        description: 文件存储路径
+        type: string
+      size:
+        description: 文件大小
+        minimum: 0
+        type: integer
+      userName:
+        description: 上传人员
+        type: string
+    type: object
+  robot_scheduler_internal_model_dto.PCDFileUploadTokenRequest:
+    properties:
+      fileName:
+        description: 原始文件名
+        type: string
+      size:
+        description: 文件大小(字节)
+        minimum: 0
+        type: integer
+    required:
+    - fileName
+    - size
+    type: object
+  robot_scheduler_internal_model_dto.SemanticMapCreateRequest:
+    properties:
+      extraInfo:
+        description: 扩展信息
+        type: string
+      pcdFileId:
+        description: 对应的pcd地图文件id
+        type: integer
+      semanticInfo:
+        description: 语义信息
+        type: string
+      userName:
+        description: 编辑人员
+        type: string
+    required:
+    - pcdFileId
+    - semanticInfo
+    - userName
+    type: object
+  robot_scheduler_internal_model_dto.SemanticMapUpdateRequest:
+    properties:
+      extraInfo:
+        description: 扩展信息
+        type: string
+      pcdFileId:
+        description: 对应的pcd地图文件id
+        type: integer
+      semanticInfo:
+        description: 语义信息
+        type: string
+      userName:
+        description: 编辑人员
+        type: string
+    type: object
+  robot_scheduler_internal_model_dto.TaskCreateRequest:
+    properties:
+      extraInfo:
+        description: 扩展信息
+        type: string
+      semanticMapId:
+        description: 对应的语义地图id
+        type: integer
+      taskInfo:
+        description: 任务信息
+        type: string
+      userName:
+        description: 编辑人员
+        type: string
+    required:
+    - semanticMapId
+    - taskInfo
+    - userName
+    type: object
+  robot_scheduler_internal_model_dto.TaskUpdateRequest:
+    properties:
+      extraInfo:
+        description: 扩展信息
+        type: string
+      semanticMapId:
+        description: 对应的语义地图id
+        type: integer
+      status:
+        allOf:
+        - $ref: '#/definitions/robot_scheduler_internal_model_entity.TaskStatus'
+        description: 任务状态
+      taskInfo:
+        description: 任务信息
+        type: string
+      userName:
+        description: 编辑人员
+        type: string
+    type: object
+  robot_scheduler_internal_model_dto.UserCreateRequest:
+    properties:
+      extraInfo:
+        description: 扩展信息
+        type: string
+      password:
+        description: 密码
+        minLength: 6
+        type: string
+      role:
+        allOf:
+        - $ref: '#/definitions/robot_scheduler_internal_model_entity.RoleType'
+        description: 角色
+        enum:
+        - administrator
+        - manager
+        - operator
+        - user
+      userName:
+        description: 用户名
+        maxLength: 50
+        minLength: 3
+        type: string
+    required:
+    - password
+    - role
+    - userName
+    type: object
+  robot_scheduler_internal_model_dto.UserUpdateRequest:
+    properties:
+      extraInfo:
+        description: 扩展信息
+        type: string
+      isLocked:
+        description: 是否锁定
+        enum:
+        - 0
+        - 1
+        type: integer
+      password:
+        description: 密码
+        type: string
+      role:
+        allOf:
+        - $ref: '#/definitions/robot_scheduler_internal_model_entity.RoleType'
+        description: 角色
+    type: object
+  robot_scheduler_internal_model_entity.CompanyType:
+    enum:
+    - cyborg
+    type: string
+    x-enum-comments:
+      CompanyCyborg: 赛博格
+    x-enum-descriptions:
+    - 赛博格
+    x-enum-varnames:
+    - CompanyCyborg
+  robot_scheduler_internal_model_entity.DeviceStatus:
+    enum:
+    - offline
+    - online
+    - busy
+    - error
+    type: string
+    x-enum-comments:
+      DeviceStatusBusy: 忙碌
+      DeviceStatusError: 错误
+      DeviceStatusOffline: 离线
+      DeviceStatusOnline: 在线
+    x-enum-descriptions:
+    - 离线
+    - 在线
+    - 忙碌
+    - 错误
+    x-enum-varnames:
+    - DeviceStatusOffline
+    - DeviceStatusOnline
+    - DeviceStatusBusy
+    - DeviceStatusError
+  robot_scheduler_internal_model_entity.DeviceType:
+    enum:
+    - robot_wheel
+    - robot_biped
+    type: string
+    x-enum-comments:
+      DeviceTypeBipedRobot: 双足机器人
+      DeviceTypeWheelRobot: 轮式机器人
+    x-enum-descriptions:
+    - 轮式机器人
+    - 双足机器人
+    x-enum-varnames:
+    - DeviceTypeWheelRobot
+    - DeviceTypeBipedRobot
+  robot_scheduler_internal_model_entity.RoleType:
+    enum:
+    - administrator
+    - manager
+    - operator
+    - user
+    type: string
+    x-enum-comments:
+      RoleAdministrator: 超级管理员
+      RoleManager: 管理员
+      RoleOperator: 操作员
+      RoleUser: 普通用户
+    x-enum-descriptions:
+    - 超级管理员
+    - 管理员
+    - 操作员
+    - 普通用户
+    x-enum-varnames:
+    - RoleAdministrator
+    - RoleManager
+    - RoleOperator
+    - RoleUser
+  robot_scheduler_internal_model_entity.TaskStatus:
+    enum:
+    - pending
+    - running
+    - completed
+    - failed
+    - cancelled
+    type: string
+    x-enum-comments:
+      TaskStatusCancelled: 已取消
+      TaskStatusCompleted: 已完成
+      TaskStatusFailed: 失败
+      TaskStatusPending: 待执行
+      TaskStatusRunning: 执行中
+    x-enum-descriptions:
+    - 待执行
+    - 执行中
+    - 已完成
+    - 失败
+    - 已取消
+    x-enum-varnames:
+    - TaskStatusPending
+    - TaskStatusRunning
+    - TaskStatusCompleted
+    - TaskStatusFailed
+    - TaskStatusCancelled
+host: localhost:8080
+info:
+  contact: {}
+  description: 机器人调度系统后台管理接口
+  termsOfService: http://swagger.io/terms/
+  title: 机器人调度系统 API
+  version: "1.0"
+paths:
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: 用户登录，返回JWT token
+      parameters:
+      - description: 登录信息
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/robot_scheduler_internal_model_dto.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+        "400":
+          description: 参数错误
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+        "401":
+          description: 用户名或密码错误
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+      summary: 用户登录
+      tags:
+      - 认证
+  /auth/logout:
+    post:
+      consumes:
+      - application/json
+      description: 用户退出登录
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+      security:
+      - BearerAuth: []
+      summary: 用户退出
+      tags:
+      - 认证
+  /devices:
+    get:
+      consumes:
+      - application/json
+      description: 查询所有设备
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+        "500":
+          description: 服务器错误
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+      security:
+      - BearerAuth: []
+      summary: 查询设备列表
+      tags:
+      - 设备管理
+    post:
+      consumes:
+      - application/json
+      description: 创建新设备
+      parameters:
+      - description: 设备信息
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/robot_scheduler_internal_model_dto.DeviceCreateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+        "400":
+          description: 参数错误
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+        "500":
+          description: 服务器错误
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+      security:
+      - BearerAuth: []
+      summary: 创建设备
+      tags:
+      - 设备管理
+  /devices/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: 删除设备（软删除）
+      parameters:
+      - description: 设备ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+        "400":
+          description: 参数错误
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+        "500":
+          description: 服务器错误
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+      security:
+      - BearerAuth: []
+      summary: 删除设备
+      tags:
+      - 设备管理
+    get:
+      consumes:
+      - application/json
+      description: 根据ID获取设备信息
+      parameters:
+      - description: 设备ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+        "400":
+          description: 参数错误
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+        "404":
+          description: 设备不存在
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+        "500":
+          description: 服务器错误
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+      security:
+      - BearerAuth: []
+      summary: 获取设备
+      tags:
+      - 设备管理
+    put:
+      consumes:
+      - application/json
+      description: 更新设备信息
+      parameters:
+      - description: 设备ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 更新信息
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/robot_scheduler_internal_model_dto.DeviceUpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+        "400":
+          description: 参数错误
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+        "404":
+          description: 设备不存在
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+        "500":
+          description: 服务器错误
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+      security:
+      - BearerAuth: []
+      summary: 更新设备
+      tags:
+      - 设备管理
+  /maps/pcd-files:
+    get:
+      consumes:
+      - application/json
+      description: 查询所有点云地图
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+        "500":
+          description: 服务器错误
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+      security:
+      - BearerAuth: []
+      summary: 查询点云地图列表
+      tags:
+      - 点云地图
+    post:
+      consumes:
+      - application/json
+      description: 创建新点云地图
+      parameters:
+      - description: 点云地图信息
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/robot_scheduler_internal_model_dto.PCDFileCreateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+        "400":
+          description: 参数错误
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+        "500":
+          description: 服务器错误
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+      security:
+      - BearerAuth: []
+      summary: 创建点云地图
+      tags:
+      - 点云地图
+  /maps/pcd-files/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: 删除点云地图（软删除）
+      parameters:
+      - description: 点云地图ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+        "400":
+          description: 参数错误
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+        "500":
+          description: 服务器错误
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+      security:
+      - BearerAuth: []
+      summary: 删除点云地图
+      tags:
+      - 点云地图
+    get:
+      consumes:
+      - application/json
+      description: 根据ID获取点云地图信息
+      parameters:
+      - description: 点云地图ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+        "400":
+          description: 参数错误
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+        "404":
+          description: 点云地图不存在
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+        "500":
+          description: 服务器错误
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+      security:
+      - BearerAuth: []
+      summary: 获取点云地图
+      tags:
+      - 点云地图
+    put:
+      consumes:
+      - application/json
+      description: 更新点云地图信息
+      parameters:
+      - description: 点云地图ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 更新信息
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/robot_scheduler_internal_model_dto.PCDFileUpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+        "400":
+          description: 参数错误
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+        "404":
+          description: 点云地图不存在
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+        "500":
+          description: 服务器错误
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+      security:
+      - BearerAuth: []
+      summary: 更新点云地图
+      tags:
+      - 点云地图
+  /maps/pcd-files/upload-token:
+    post:
+      consumes:
+      - application/json
+      description: 返回 MinIO 预签名上传 URL
+      parameters:
+      - description: 上传文件信息
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/robot_scheduler_internal_model_dto.PCDFileUploadTokenRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+        "400":
+          description: 参数错误
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+        "500":
+          description: 服务器错误
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+      security:
+      - BearerAuth: []
+      summary: 获取点云地图上传凭证
+      tags:
+      - 点云地图
+  /maps/semantic-maps:
+    get:
+      consumes:
+      - application/json
+      description: 查询所有语义地图
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+        "500":
+          description: 服务器错误
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+      security:
+      - BearerAuth: []
+      summary: 查询语义地图列表
+      tags:
+      - 语义地图
+    post:
+      consumes:
+      - application/json
+      description: 创建新语义地图
+      parameters:
+      - description: 语义地图信息
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/robot_scheduler_internal_model_dto.SemanticMapCreateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+        "400":
+          description: 参数错误
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+        "500":
+          description: 服务器错误
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+      security:
+      - BearerAuth: []
+      summary: 创建语义地图
+      tags:
+      - 语义地图
+  /maps/semantic-maps/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: 删除语义地图（软删除）
+      parameters:
+      - description: 语义地图ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+        "400":
+          description: 参数错误
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+        "500":
+          description: 服务器错误
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+      security:
+      - BearerAuth: []
+      summary: 删除语义地图
+      tags:
+      - 语义地图
+    get:
+      consumes:
+      - application/json
+      description: 根据ID获取语义地图信息
+      parameters:
+      - description: 语义地图ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+        "400":
+          description: 参数错误
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+        "404":
+          description: 语义地图不存在
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+        "500":
+          description: 服务器错误
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+      security:
+      - BearerAuth: []
+      summary: 获取语义地图
+      tags:
+      - 语义地图
+    put:
+      consumes:
+      - application/json
+      description: 更新语义地图信息
+      parameters:
+      - description: 语义地图ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 更新信息
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/robot_scheduler_internal_model_dto.SemanticMapUpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+        "400":
+          description: 参数错误
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+        "404":
+          description: 语义地图不存在
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+        "500":
+          description: 服务器错误
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+      security:
+      - BearerAuth: []
+      summary: 更新语义地图
+      tags:
+      - 语义地图
+  /operations:
+    get:
+      consumes:
+      - application/json
+      description: 查询所有操作记录
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+        "500":
+          description: 服务器错误
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+      security:
+      - BearerAuth: []
+      summary: 查询操作记录列表
+      tags:
+      - 操作记录
+  /operations/{id}:
+    get:
+      consumes:
+      - application/json
+      description: 根据ID获取操作记录信息
+      parameters:
+      - description: 操作记录ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "400":
+          description: 参数错误
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+        "404":
+          description: 操作记录不存在
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+        "500":
+          description: 服务器错误
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+      security:
+      - BearerAuth: []
+      summary: 获取操作记录
+      tags:
+      - 操作记录
+  /tasks:
+    get:
+      consumes:
+      - application/json
+      description: 查询所有任务
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+        "500":
+          description: 服务器错误
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+      security:
+      - BearerAuth: []
+      summary: 查询任务列表
+      tags:
+      - 任务管理
+    post:
+      consumes:
+      - application/json
+      description: 创建新任务
+      parameters:
+      - description: 任务信息
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/robot_scheduler_internal_model_dto.TaskCreateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+        "400":
+          description: 参数错误
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+        "500":
+          description: 服务器错误
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+      security:
+      - BearerAuth: []
+      summary: 创建任务
+      tags:
+      - 任务管理
+  /tasks/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: 删除任务（软删除）
+      parameters:
+      - description: 任务ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+        "400":
+          description: 参数错误
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+        "500":
+          description: 服务器错误
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+      security:
+      - BearerAuth: []
+      summary: 删除任务
+      tags:
+      - 任务管理
+    get:
+      consumes:
+      - application/json
+      description: 根据ID获取任务信息
+      parameters:
+      - description: 任务ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+        "400":
+          description: 参数错误
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+        "404":
+          description: 任务不存在
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+        "500":
+          description: 服务器错误
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+      security:
+      - BearerAuth: []
+      summary: 获取任务
+      tags:
+      - 任务管理
+    put:
+      consumes:
+      - application/json
+      description: 更新任务信息
+      parameters:
+      - description: 任务ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 更新信息
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/robot_scheduler_internal_model_dto.TaskUpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+        "400":
+          description: 参数错误
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+        "404":
+          description: 任务不存在
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+        "500":
+          description: 服务器错误
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+      security:
+      - BearerAuth: []
+      summary: 更新任务
+      tags:
+      - 任务管理
+  /users:
+    get:
+      consumes:
+      - application/json
+      description: 查询所有用户
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+        "500":
+          description: 服务器错误
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+      summary: 查询用户列表
+      tags:
+      - 用户管理
+    post:
+      consumes:
+      - application/json
+      description: 创建新用户
+      parameters:
+      - description: 用户信息
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/robot_scheduler_internal_model_dto.UserCreateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+        "400":
+          description: 参数错误
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+        "500":
+          description: 服务器错误
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+      summary: 创建用户
+      tags:
+      - 用户管理
+  /users/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: 删除用户（软删除）
+      parameters:
+      - description: 用户ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+        "400":
+          description: 参数错误
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+        "500":
+          description: 服务器错误
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+      summary: 删除用户
+      tags:
+      - 用户管理
+    get:
+      consumes:
+      - application/json
+      description: 根据ID获取用户信息
+      parameters:
+      - description: 用户ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+        "400":
+          description: 参数错误
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+        "404":
+          description: 用户不存在
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+        "500":
+          description: 服务器错误
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+      summary: 获取用户
+      tags:
+      - 用户管理
+    put:
+      consumes:
+      - application/json
+      description: 更新用户信息
+      parameters:
+      - description: 用户ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 更新信息
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/robot_scheduler_internal_model_dto.UserUpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+        "400":
+          description: 参数错误
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+        "404":
+          description: 用户不存在
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+        "500":
+          description: 服务器错误
+          schema:
+            $ref: '#/definitions/internal_api_handler.Response'
+      summary: 更新用户
+      tags:
+      - 用户管理
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

@@ -1,0 +1,57 @@
+# 应用配置
+app:
+  name: "robot-scheduler"
+  version: "1.0.0"
+  mode: "release"  # debug, release, test
+  port: 8080
+  read_timeout: 60
+  write_timeout: 60
+
+# 数据库配置
+database:
+  default: "postgres"  # postgres, sqlite
+  postgres:
+    host: "43.138.231.195"
+    port: 5432
+    user: "postgres"
+    password: "pg@cyb_org.cn1528"
+    dbname: "robot_scheduler"
+    sslmode: "disable"
+    max_idle_conns: 10
+    max_open_conns: 100
+    conn_max_lifetime: 3600
+  sqlite:
+    path: "./data/robot.db"
+    busy_timeout: 5000
+    foreign_keys: true
+    journal_mode: "WAL"
+
+# 日志配置
+log:
+  level: "info"  # debug, info, warn, error, dpanic, panic, fatal
+  encoding: "json"  # json, console
+  output: "./logs/robot-scheduler.log"
+  max_size: 100  # MB
+  max_backups: 10
+  max_age: 30  # days
+  compress: true
+
+# MinIO配置
+minio:
+  enabled: true
+  endpoint: "43.138.231.195:9000"
+  access_key: "admin"
+  secret_key: "minio@cyb_org.cn1528"
+  use_ssl: false
+  bucket_name: "robot-maps"
+  region: "us-east-1"
+
+# 平台配置
+platform:
+  type: "win"  # win, linux, embedded
+
+# 认证配置
+auth:
+  des_key: "12345678"  # DES加密密钥（8字节）
+  jwt_secret: "your-secret-key-change-in-production"  # JWT签名密钥
+  jwt_expire_hours: 24  # JWT过期时间（小时）

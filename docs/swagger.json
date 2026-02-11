@@ -1,0 +1,1951 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "机器人调度系统后台管理接口",
+        "title": "机器人调度系统 API",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {},
+        "version": "1.0"
+    },
+    "host": "localhost:8080",
+    "basePath": "/api/v1",
+    "paths": {
+        "/auth/login": {
+            "post": {
+                "description": "用户登录，返回JWT token",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "认证"
+                ],
+                "summary": "用户登录",
+                "parameters": [
+                    {
+                        "description": "登录信息",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/robot_scheduler_internal_model_dto.LoginRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "参数错误",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    },
+                    "401": {
+                        "description": "用户名或密码错误",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/logout": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "用户退出登录",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "认证"
+                ],
+                "summary": "用户退出",
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/devices": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "查询所有设备",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "设备管理"
+                ],
+                "summary": "查询设备列表",
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "服务器错误",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "创建新设备",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "设备管理"
+                ],
+                "summary": "创建设备",
+                "parameters": [
+                    {
+                        "description": "设备信息",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/robot_scheduler_internal_model_dto.DeviceCreateRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "参数错误",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "服务器错误",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/devices/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "根据ID获取设备信息",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "设备管理"
+                ],
+                "summary": "获取设备",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "设备ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "参数错误",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    },
+                    "404": {
+                        "description": "设备不存在",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "服务器错误",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "更新设备信息",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "设备管理"
+                ],
+                "summary": "更新设备",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "设备ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "更新信息",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/robot_scheduler_internal_model_dto.DeviceUpdateRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "参数错误",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    },
+                    "404": {
+                        "description": "设备不存在",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "服务器错误",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "删除设备（软删除）",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "设备管理"
+                ],
+                "summary": "删除设备",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "设备ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "参数错误",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "服务器错误",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/maps/pcd-files": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "查询所有点云地图",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "点云地图"
+                ],
+                "summary": "查询点云地图列表",
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "服务器错误",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "创建新点云地图",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "点云地图"
+                ],
+                "summary": "创建点云地图",
+                "parameters": [
+                    {
+                        "description": "点云地图信息",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/robot_scheduler_internal_model_dto.PCDFileCreateRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "参数错误",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "服务器错误",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/maps/pcd-files/upload-token": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "返回 MinIO 预签名上传 URL",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "点云地图"
+                ],
+                "summary": "获取点云地图上传凭证",
+                "parameters": [
+                    {
+                        "description": "上传文件信息",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/robot_scheduler_internal_model_dto.PCDFileUploadTokenRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "参数错误",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "服务器错误",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/maps/pcd-files/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "根据ID获取点云地图信息",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "点云地图"
+                ],
+                "summary": "获取点云地图",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "点云地图ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "参数错误",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    },
+                    "404": {
+                        "description": "点云地图不存在",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "服务器错误",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "更新点云地图信息",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "点云地图"
+                ],
+                "summary": "更新点云地图",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "点云地图ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "更新信息",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/robot_scheduler_internal_model_dto.PCDFileUpdateRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "参数错误",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    },
+                    "404": {
+                        "description": "点云地图不存在",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "服务器错误",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "删除点云地图（软删除）",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "点云地图"
+                ],
+                "summary": "删除点云地图",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "点云地图ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "参数错误",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "服务器错误",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/maps/semantic-maps": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "查询所有语义地图",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "语义地图"
+                ],
+                "summary": "查询语义地图列表",
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "服务器错误",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "创建新语义地图",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "语义地图"
+                ],
+                "summary": "创建语义地图",
+                "parameters": [
+                    {
+                        "description": "语义地图信息",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/robot_scheduler_internal_model_dto.SemanticMapCreateRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "参数错误",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "服务器错误",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/maps/semantic-maps/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "根据ID获取语义地图信息",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "语义地图"
+                ],
+                "summary": "获取语义地图",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "语义地图ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "参数错误",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    },
+                    "404": {
+                        "description": "语义地图不存在",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "服务器错误",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "更新语义地图信息",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "语义地图"
+                ],
+                "summary": "更新语义地图",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "语义地图ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "更新信息",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/robot_scheduler_internal_model_dto.SemanticMapUpdateRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "参数错误",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    },
+                    "404": {
+                        "description": "语义地图不存在",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "服务器错误",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "删除语义地图（软删除）",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "语义地图"
+                ],
+                "summary": "删除语义地图",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "语义地图ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "参数错误",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "服务器错误",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/operations": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "查询所有操作记录",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "操作记录"
+                ],
+                "summary": "查询操作记录列表",
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "服务器错误",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/operations/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "根据ID获取操作记录信息",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "操作记录"
+                ],
+                "summary": "获取操作记录",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "操作记录ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "参数错误",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    },
+                    "404": {
+                        "description": "操作记录不存在",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "服务器错误",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/tasks": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "查询所有任务",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "任务管理"
+                ],
+                "summary": "查询任务列表",
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "服务器错误",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "创建新任务",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "任务管理"
+                ],
+                "summary": "创建任务",
+                "parameters": [
+                    {
+                        "description": "任务信息",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/robot_scheduler_internal_model_dto.TaskCreateRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "参数错误",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "服务器错误",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/tasks/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "根据ID获取任务信息",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "任务管理"
+                ],
+                "summary": "获取任务",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "任务ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "参数错误",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    },
+                    "404": {
+                        "description": "任务不存在",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "服务器错误",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "更新任务信息",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "任务管理"
+                ],
+                "summary": "更新任务",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "任务ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "更新信息",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/robot_scheduler_internal_model_dto.TaskUpdateRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "参数错误",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    },
+                    "404": {
+                        "description": "任务不存在",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "服务器错误",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "删除任务（软删除）",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "任务管理"
+                ],
+                "summary": "删除任务",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "任务ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "参数错误",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "服务器错误",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/users": {
+            "get": {
+                "description": "查询所有用户",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "用户管理"
+                ],
+                "summary": "查询用户列表",
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "服务器错误",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "创建新用户",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "用户管理"
+                ],
+                "summary": "创建用户",
+                "parameters": [
+                    {
+                        "description": "用户信息",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/robot_scheduler_internal_model_dto.UserCreateRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "参数错误",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "服务器错误",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{id}": {
+            "get": {
+                "description": "根据ID获取用户信息",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "用户管理"
+                ],
+                "summary": "获取用户",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "用户ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "参数错误",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    },
+                    "404": {
+                        "description": "用户不存在",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "服务器错误",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "更新用户信息",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "用户管理"
+                ],
+                "summary": "更新用户",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "用户ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "更新信息",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/robot_scheduler_internal_model_dto.UserUpdateRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "参数错误",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    },
+                    "404": {
+                        "description": "用户不存在",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "服务器错误",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "删除用户（软删除）",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "用户管理"
+                ],
+                "summary": "删除用户",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "用户ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "参数错误",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "服务器错误",
+                        "schema": {
+                            "$ref": "#/definitions/internal_api_handler.Response"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "internal_api_handler.Response": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "data": {},
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "robot_scheduler_internal_model_dto.DeviceCreateRequest": {
+            "type": "object",
+            "required": [
+                "company",
+                "port",
+                "type"
+            ],
+            "properties": {
+                "company": {
+                    "description": "设备厂商",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/robot_scheduler_internal_model_entity.CompanyType"
+                        }
+                    ]
+                },
+                "extraInfo": {
+                    "description": "扩展信息",
+                    "type": "string"
+                },
+                "ip": {
+                    "description": "设备IP",
+                    "type": "string"
+                },
+                "password": {
+                    "description": "登录密码",
+                    "type": "string"
+                },
+                "port": {
+                    "description": "设备端口",
+                    "type": "integer"
+                },
+                "type": {
+                    "description": "设备类型",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/robot_scheduler_internal_model_entity.DeviceType"
+                        }
+                    ]
+                },
+                "userName": {
+                    "description": "登录用户名",
+                    "type": "string"
+                }
+            }
+        },
+        "robot_scheduler_internal_model_dto.DeviceUpdateRequest": {
+            "type": "object",
+            "properties": {
+                "company": {
+                    "description": "设备厂商",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/robot_scheduler_internal_model_entity.CompanyType"
+                        }
+                    ]
+                },
+                "extraInfo": {
+                    "description": "扩展信息",
+                    "type": "string"
+                },
+                "ip": {
+                    "description": "设备IP",
+                    "type": "string"
+                },
+                "password": {
+                    "description": "登录密码",
+                    "type": "string"
+                },
+                "port": {
+                    "description": "设备端口",
+                    "type": "integer"
+                },
+                "status": {
+                    "description": "设备状态",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/robot_scheduler_internal_model_entity.DeviceStatus"
+                        }
+                    ]
+                },
+                "type": {
+                    "description": "设备类型",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/robot_scheduler_internal_model_entity.DeviceType"
+                        }
+                    ]
+                },
+                "userName": {
+                    "description": "登录用户名",
+                    "type": "string"
+                }
+            }
+        },
+        "robot_scheduler_internal_model_dto.LoginRequest": {
+            "type": "object",
+            "required": [
+                "password",
+                "userName"
+            ],
+            "properties": {
+                "password": {
+                    "description": "密码",
+                    "type": "string"
+                },
+                "userName": {
+                    "description": "用户名",
+                    "type": "string"
+                }
+            }
+        },
+        "robot_scheduler_internal_model_dto.PCDFileCreateRequest": {
+            "type": "object",
+            "required": [
+                "area",
+                "name",
+                "path",
+                "size",
+                "userName"
+            ],
+            "properties": {
+                "area": {
+                    "description": "区域描述",
+                    "type": "string"
+                },
+                "extraInfo": {
+                    "description": "扩展信息",
+                    "type": "string"
+                },
+                "minioPath": {
+                    "description": "MinIO存储路径",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "地图名称",
+                    "type": "string",
+                    "maxLength": 100,
+                    "minLength": 1
+                },
+                "path": {
+                    "description": "文件存储路径",
+                    "type": "string"
+                },
+                "size": {
+                    "description": "文件大小",
+                    "type": "integer",
+                    "minimum": 0
+                },
+                "userName": {
+                    "description": "上传人员",
+                    "type": "string"
+                }
+            }
+        },
+        "robot_scheduler_internal_model_dto.PCDFileUpdateRequest": {
+            "type": "object",
+            "properties": {
+                "area": {
+                    "description": "区域描述",
+                    "type": "string"
+                },
+                "extraInfo": {
+                    "description": "扩展信息",
+                    "type": "string"
+                },
+                "minioPath": {
+                    "description": "MinIO存储路径",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "地图名称",
+                    "type": "string",
+                    "maxLength": 100,
+                    "minLength": 1
+                },
+                "path": {
+                    "description": "文件存储路径",
+                    "type": "string"
+                },
+                "size": {
+                    "description": "文件大小",
+                    "type": "integer",
+                    "minimum": 0
+                },
+                "userName": {
+                    "description": "上传人员",
+                    "type": "string"
+                }
+            }
+        },
+        "robot_scheduler_internal_model_dto.PCDFileUploadTokenRequest": {
+            "type": "object",
+            "required": [
+                "fileName",
+                "size"
+            ],
+            "properties": {
+                "fileName": {
+                    "description": "原始文件名",
+                    "type": "string"
+                },
+                "size": {
+                    "description": "文件大小(字节)",
+                    "type": "integer",
+                    "minimum": 0
+                }
+            }
+        },
+        "robot_scheduler_internal_model_dto.SemanticMapCreateRequest": {
+            "type": "object",
+            "required": [
+                "pcdFileId",
+                "semanticInfo",
+                "userName"
+            ],
+            "properties": {
+                "extraInfo": {
+                    "description": "扩展信息",
+                    "type": "string"
+                },
+                "pcdFileId": {
+                    "description": "对应的pcd地图文件id",
+                    "type": "integer"
+                },
+                "semanticInfo": {
+                    "description": "语义信息",
+                    "type": "string"
+                },
+                "userName": {
+                    "description": "编辑人员",
+                    "type": "string"
+                }
+            }
+        },
+        "robot_scheduler_internal_model_dto.SemanticMapUpdateRequest": {
+            "type": "object",
+            "properties": {
+                "extraInfo": {
+                    "description": "扩展信息",
+                    "type": "string"
+                },
+                "pcdFileId": {
+                    "description": "对应的pcd地图文件id",
+                    "type": "integer"
+                },
+                "semanticInfo": {
+                    "description": "语义信息",
+                    "type": "string"
+                },
+                "userName": {
+                    "description": "编辑人员",
+                    "type": "string"
+                }
+            }
+        },
+        "robot_scheduler_internal_model_dto.TaskCreateRequest": {
+            "type": "object",
+            "required": [
+                "semanticMapId",
+                "taskInfo",
+                "userName"
+            ],
+            "properties": {
+                "extraInfo": {
+                    "description": "扩展信息",
+                    "type": "string"
+                },
+                "semanticMapId": {
+                    "description": "对应的语义地图id",
+                    "type": "integer"
+                },
+                "taskInfo": {
+                    "description": "任务信息",
+                    "type": "string"
+                },
+                "userName": {
+                    "description": "编辑人员",
+                    "type": "string"
+                }
+            }
+        },
+        "robot_scheduler_internal_model_dto.TaskUpdateRequest": {
+            "type": "object",
+            "properties": {
+                "extraInfo": {
+                    "description": "扩展信息",
+                    "type": "string"
+                },
+                "semanticMapId": {
+                    "description": "对应的语义地图id",
+                    "type": "integer"
+                },
+                "status": {
+                    "description": "任务状态",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/robot_scheduler_internal_model_entity.TaskStatus"
+                        }
+                    ]
+                },
+                "taskInfo": {
+                    "description": "任务信息",
+                    "type": "string"
+                },
+                "userName": {
+                    "description": "编辑人员",
+                    "type": "string"
+                }
+            }
+        },
+        "robot_scheduler_internal_model_dto.UserCreateRequest": {
+            "type": "object",
+            "required": [
+                "password",
+                "role",
+                "userName"
+            ],
+            "properties": {
+                "extraInfo": {
+                    "description": "扩展信息",
+                    "type": "string"
+                },
+                "password": {
+                    "description": "密码",
+                    "type": "string",
+                    "minLength": 6
+                },
+                "role": {
+                    "description": "角色",
+                    "enum": [
+                        "administrator",
+                        "manager",
+                        "operator",
+                        "user"
+                    ],
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/robot_scheduler_internal_model_entity.RoleType"
+                        }
+                    ]
+                },
+                "userName": {
+                    "description": "用户名",
+                    "type": "string",
+                    "maxLength": 50,
+                    "minLength": 3
+                }
+            }
+        },
+        "robot_scheduler_internal_model_dto.UserUpdateRequest": {
+            "type": "object",
+            "properties": {
+                "extraInfo": {
+                    "description": "扩展信息",
+                    "type": "string"
+                },
+                "isLocked": {
+                    "description": "是否锁定",
+                    "type": "integer",
+                    "enum": [
+                        0,
+                        1
+                    ]
+                },
+                "password": {
+                    "description": "密码",
+                    "type": "string"
+                },
+                "role": {
+                    "description": "角色",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/robot_scheduler_internal_model_entity.RoleType"
+                        }
+                    ]
+                }
+            }
+        },
+        "robot_scheduler_internal_model_entity.CompanyType": {
+            "type": "string",
+            "enum": [
+                "cyborg"
+            ],
+            "x-enum-comments": {
+                "CompanyCyborg": "赛博格"
+            },
+            "x-enum-descriptions": [
+                "赛博格"
+            ],
+            "x-enum-varnames": [
+                "CompanyCyborg"
+            ]
+        },
+        "robot_scheduler_internal_model_entity.DeviceStatus": {
+            "type": "string",
+            "enum": [
+                "offline",
+                "online",
+                "busy",
+                "error"
+            ],
+            "x-enum-comments": {
+                "DeviceStatusBusy": "忙碌",
+                "DeviceStatusError": "错误",
+                "DeviceStatusOffline": "离线",
+                "DeviceStatusOnline": "在线"
+            },
+            "x-enum-descriptions": [
+                "离线",
+                "在线",
+                "忙碌",
+                "错误"
+            ],
+            "x-enum-varnames": [
+                "DeviceStatusOffline",
+                "DeviceStatusOnline",
+                "DeviceStatusBusy",
+                "DeviceStatusError"
+            ]
+        },
+        "robot_scheduler_internal_model_entity.DeviceType": {
+            "type": "string",
+            "enum": [
+                "robot_wheel",
+                "robot_biped"
+            ],
+            "x-enum-comments": {
+                "DeviceTypeBipedRobot": "双足机器人",
+                "DeviceTypeWheelRobot": "轮式机器人"
+            },
+            "x-enum-descriptions": [
+                "轮式机器人",
+                "双足机器人"
+            ],
+            "x-enum-varnames": [
+                "DeviceTypeWheelRobot",
+                "DeviceTypeBipedRobot"
+            ]
+        },
+        "robot_scheduler_internal_model_entity.RoleType": {
+            "type": "string",
+            "enum": [
+                "administrator",
+                "manager",
+                "operator",
+                "user"
+            ],
+            "x-enum-comments": {
+                "RoleAdministrator": "超级管理员",
+                "RoleManager": "管理员",
+                "RoleOperator": "操作员",
+                "RoleUser": "普通用户"
+            },
+            "x-enum-descriptions": [
+                "超级管理员",
+                "管理员",
+                "操作员",
+                "普通用户"
+            ],
+            "x-enum-varnames": [
+                "RoleAdministrator",
+                "RoleManager",
+                "RoleOperator",
+                "RoleUser"
+            ]
+        },
+        "robot_scheduler_internal_model_entity.TaskStatus": {
+            "type": "string",
+            "enum": [
+                "pending",
+                "running",
+                "completed",
+                "failed",
+                "cancelled"
+            ],
+            "x-enum-comments": {
+                "TaskStatusCancelled": "已取消",
+                "TaskStatusCompleted": "已完成",
+                "TaskStatusFailed": "失败",
+                "TaskStatusPending": "待执行",
+                "TaskStatusRunning": "执行中"
+            },
+            "x-enum-descriptions": [
+                "待执行",
+                "执行中",
+                "已完成",
+                "失败",
+                "已取消"
+            ],
+            "x-enum-varnames": [
+                "TaskStatusPending",
+                "TaskStatusRunning",
+                "TaskStatusCompleted",
+                "TaskStatusFailed",
+                "TaskStatusCancelled"
+            ]
+        }
+    },
+    "securityDefinitions": {
+        "BearerAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    }
+}
