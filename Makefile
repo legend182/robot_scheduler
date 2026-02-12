@@ -1,7 +1,7 @@
-.PHONY: build run test clean swagger
+.PHONY: build run test clean swagger mocks test-unit test-integration test-coverage
 
-BINARY_NAME=robot-scheduler
-CONFIG_PATH=config/config.yaml
+BINARY_NAME=robot_scheduler
+CONFIG_PATH=configs/config.yaml
 
 build:
 	@echo "Building..."
@@ -15,9 +15,41 @@ dev:
 	@echo "Running in development mode..."
 	@go run cmd/main.go config/config_dev.yaml
 
+# Generate mocks for all DAO interfaces
+mocks:
+	@echo "Generating mocks..."
+	@go install go.uber.org/mock/mockgen@latest
+	@mkdir -p internal/testutil/mocks
+	@mockgen -source=internal/dao/interfaces/user_dao.go -destination=internal/testutil/mocks/mock_user_dao.go -package=mocks
+	@mockgen -source=internal/dao/interfaces/device.go -destination=internal/testutil/mocks/mock_device_dao.go -package=mocks
+	@mockgen -source=internal/dao/interfaces/task.go -destination=internal/testutil/mocks/mock_task_dao.go -package=mocks
+	@mockgen -source=internal/dao/interfaces/semantic.go -destination=internal/testutil/mocks/mock_semantic_dao.go -package=mocks
+	@mockgen -source=internal/dao/interfaces/user_operation.go -destination=internal/testutil/mocks/mock_user_operation_dao.go -package=mocks
+	@mockgen -source=internal/dao/interfaces/pcd_dao.go -destination=internal/testutil/mocks/mock_pcd_dao.go -package=mocks
+	@echo "Mocks generated successfully"
+
+# Run all tests
 test:
-	@echo "Testing..."
+	@echo "Running all tests..."
 	@go test ./... -v
+
+# Run unit tests (fast)
+test-unit:
+	@echo "Running unit tests..."
+	@go test ./internal/service/... ./internal/utils/... -v -short
+
+# Run integration tests (slower)
+test-integration:
+	@echo "Running integration tests..."
+	@go test ./internal/dao/... -v
+
+# Generate test coverage report
+test-coverage:
+	@echo "Generating test coverage report..."
+	@go test ./... -coverprofile=coverage.out -covermode=atomic
+	@go tool cover -html=coverage.out -o coverage.html
+	@go tool cover -func=coverage.out | grep total
+	@echo "Coverage report generated: coverage.html"
 
 clean:
 	@echo "Cleaning..."
