@@ -19,13 +19,13 @@ func Init(config *config.LogConfig) error {
 	if err := os.MkdirAll(logDir, 0755); err != nil {
 		return err
 	}
-	
+
 	// 设置日志级别
 	var level zapcore.Level
 	if err := level.UnmarshalText([]byte(config.Level)); err != nil {
 		level = zapcore.InfoLevel
 	}
-	
+
 	// 编码器配置
 	encoderConfig := zapcore.EncoderConfig{
 		TimeKey:       "time",
@@ -42,7 +42,7 @@ func Init(config *config.LogConfig) error {
 		EncodeDuration: zapcore.SecondsDurationEncoder,
 		EncodeCaller:   zapcore.ShortCallerEncoder,
 	}
-	
+
 	// 编码器
 	var encoder zapcore.Encoder
 	if config.Encoding == "console" {
@@ -50,7 +50,7 @@ func Init(config *config.LogConfig) error {
 	} else {
 		encoder = zapcore.NewJSONEncoder(encoderConfig)
 	}
-	
+
 	// 日志写入器
 	writer := zapcore.AddSync(&lumberjack.Logger{
 		Filename:   config.Output,
@@ -59,17 +59,17 @@ func Init(config *config.LogConfig) error {
 		MaxAge:     config.MaxAge,
 		Compress:   config.Compress,
 	})
-	
+
 	// 核心配置
 	core := zapcore.NewCore(
 		encoder,
 		zapcore.NewMultiWriteSyncer(writer, zapcore.AddSync(os.Stdout)),
 		level,
 	)
-	
+
 	// 创建Logger
 	Logger = zap.New(core, zap.AddCaller(), zap.AddCallerSkip(1))
-	
+
 	return nil
 }
 
@@ -82,26 +82,54 @@ func Debug(msg string, fields ...zap.Field) {
 	Logger.Debug(msg, fields...)
 }
 
+func Debugf(format string, args ...interface{}) {
+	Logger.Sugar().Debugf(format, args...)
+}
+
 func Info(msg string, fields ...zap.Field) {
 	Logger.Info(msg, fields...)
+}
+
+func Infof(format string, args ...interface{}) {
+	Logger.Sugar().Infof(format, args...)
 }
 
 func Warn(msg string, fields ...zap.Field) {
 	Logger.Warn(msg, fields...)
 }
 
+func Warnf(format string, args ...interface{}) {
+	Logger.Sugar().Warnf(format, args...)
+}
+
 func Error(msg string, fields ...zap.Field) {
 	Logger.Error(msg, fields...)
+}
+
+func Errorf(format string, args ...interface{}) {
+	Logger.Sugar().Errorf(format, args...)
 }
 
 func DPanic(msg string, fields ...zap.Field) {
 	Logger.DPanic(msg, fields...)
 }
 
+func DPanicf(format string, args ...interface{}) {
+	Logger.Sugar().DPanicf(format, args...)
+}
+
 func Panic(msg string, fields ...zap.Field) {
 	Logger.Panic(msg, fields...)
 }
 
+func Panicf(format string, args ...interface{}) {
+	Logger.Sugar().Panicf(format, args...)
+}
+
 func Fatal(msg string, fields ...zap.Field) {
 	Logger.Fatal(msg, fields...)
+}
+
+func Fatalf(format string, args ...interface{}) {
+	Logger.Sugar().Fatalf(format, args...)
 }
