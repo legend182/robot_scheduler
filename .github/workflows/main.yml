@@ -25,7 +25,7 @@ jobs:
       - name: Install specific golangci-lint version
         run: |
           # 下载并安装最新支持 Go 1.25+ 的版本
-          curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.64.9
+          curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.64.8
 
       - name: Run golangci-lint
         run: |
