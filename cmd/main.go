@@ -48,7 +48,11 @@ func main() {
 	if err := logger.Init(cfg.Log); err != nil {
 		panic(fmt.Sprintf("failed to init logger: %v", err))
 	}
-	defer logger.Sync()
+	defer func() {
+		if err := logger.Sync(); err != nil {
+			logger.Error("failed to sync logger", zap.Error(err))
+		}
+	}()
 
 	logger.Info("starting robot scheduler",
 		zap.String("version", cfg.App.Version),

@@ -209,6 +209,9 @@ func TestUserDAO_FindPage(t *testing.T) {
 	if len(users) != 2 {
 		t.Errorf("Expected 2 users on second page, got %d", len(users))
 	}
+	if total != 5 {
+		t.Errorf("Expected total 5, got %d", total)
+	}
 }
 
 func TestUserDAO_FindAll(t *testing.T) {
