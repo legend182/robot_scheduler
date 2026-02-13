@@ -22,10 +22,10 @@ jobs:
           go-version: '1.25.6'
           cache: true
 
-      - name: Install specific golangci-lint version
+      - name: Install golangci-lint with correct Go version
         run: |
-          # 下载并安装最新支持 Go 1.25+ 的版本
-          curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.64.8
+          # 使用 go install 安装，确保用当前 Go 版本编译
+          go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.64.8
 
       - name: Run golangci-lint
         run: |
