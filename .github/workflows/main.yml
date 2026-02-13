@@ -27,9 +27,16 @@ jobs:
           # 使用 go install 安装，确保用当前 Go 版本编译
           go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.64.8
 
+      - name: Verify installation
+        run: |
+          golangci-lint version
+          echo "Go version used:"
+          go version
+
       - name: Run golangci-lint
         run: |
-          $(go env GOPATH)/bin/golangci-lint run --timeout=3m
+          golangci-lint run --timeout=3m
+
 
   # 运行测试
   test:
